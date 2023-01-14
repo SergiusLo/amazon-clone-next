@@ -56,7 +56,10 @@ function Header() {
             </span>
 
             <Link href="/checkout">
-              <ShoppingCartIcon className="h-10" />
+              <ShoppingCartIcon
+                className="h-10"
+                onClick={() => router.push("/")}
+              />
               <p className="hidden md:inline font-extrabold md:text-sm mt-2">
                 Basket
               </p>
