@@ -5,11 +5,20 @@ import { selectItems, selectTotal } from "../slices/basketSlice";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import {loadStripe} from '@stripe/stripe-js'
+
+const stripePromise = loadStripe(process.env.stripe_public_key)
 
 function Checkout(props) {
   const items = useSelector(selectItems);
   const { data: session } = useSession();
   const total = useSelector(selectTotal);
+
+  const createCheckoutSession = () => {
+    const stripe = await stripePromise
+
+    //Call the backend to create a checkout session...
+  } 
 
   return (
     <div className="bg-gray-100">
@@ -51,12 +60,14 @@ function Checkout(props) {
           {items.length > 0 && (
             <>
               <h2 className="whitespace-nowrap">
-                Subtotal ({items.length} items):{' '}
+                Subtotal ({items.length} items):{" "}
                 <span className="font-bold">
                   <Currency quantity={total} currency="GBP" />
                 </span>
               </h2>
               <button
+                role="link"
+                onClick={createCheckoutSession}
                 disabled={!session}
                 className={`button mt-2 ${
                   !session &&
