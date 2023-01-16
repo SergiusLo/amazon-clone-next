@@ -4,12 +4,12 @@ export default async (req, res) => {
   const { items, email } = req.body;
 
   const transformedItems = items.map((item) => ({
-    description: item.description,
     quantity: 1,
     price_data: {
       currency: "gbp",
       unit_amount: item.price * 100,
       product_data: {
+        description: item.description,
         name: item.title,
         images: [item.image],
       },
@@ -32,4 +32,5 @@ export default async (req, res) => {
     },
   });
   res.status(200).json({ id: session.id });
+  res.status(err.statusCode || 500).json(err.message);
 };
