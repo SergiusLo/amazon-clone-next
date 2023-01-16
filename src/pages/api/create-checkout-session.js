@@ -1,6 +1,4 @@
-const stripe = require("stripe")(
-  "sk_test_51MQFfoAEfILJ7IL6ia8lPwk6NxTo80k0sHimOQIRnYHmyqGosdMA3fcr5OHrKJZCf0Ea07Cpf0vDg1b1Hs8KR3f800jtOwWCzc"
-);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
   const { items, email } = req.body;
@@ -26,8 +24,8 @@ export default async (req, res) => {
     },
     line_items: transformedItems,
     mode: "payment",
-    success_url: `${process.env.NEXTAUTH_URL}/success`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/checkout`,
+    success_url: `${process.env.HOST}/success`,
+    cancel_url: `${process.env.HOST}/checkout`,
     metadata: {
       email,
       images: JSON.stringify(items.map((item) => item.image)),
